@@ -8,4 +8,10 @@
     <p>Percentage Off: <%= @coupon.percent_off %></p>
   <% end %>
   <p> Times Used: <%= @coupon.times_used %></p>
+  <% if @coupon.status == "active" %>
+    <%= button_to "Deactivate", { controller: "coupons", action: "update", coupon_status: 0 }, method: :patch %>
+  <% end %>
+  <% if @coupon.status == "inactive" %> 
+    <%= button_to "Activate", { controller: "coupons", action: "update", coupon_status: 1 }, method: :patch %>
+  <% end %>
 </div>

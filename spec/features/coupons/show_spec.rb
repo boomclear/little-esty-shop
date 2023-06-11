@@ -25,11 +25,34 @@ RSpec.describe "Coupon show Page" do
   
     it "displays a coupon's attributes and the count of times it's been used" do 
       visit merchant_coupon_path(merchant1, coupon_1)
-      save_and_open_page
       expect(page).to have_content(coupon_1.pennies_off)
       expect(page).to_not have_link(coupon_2.name)
       expect(page).to have_content(coupon_1.status)
       expect(page).to have_content("Times Used: 2")
+    end
+
+    it "shows a button that activates or deactivates a coupon" do
+      visit merchant_coupon_path(merchant1, coupon_1)
+      expect(page).to have_button("Deactivate")
+      click_button("Deactivate")
+      expect(page).to have_content("Coupon status: inactive")
+      expect(current_path).to eq(merchant_coupon_path(merchant1, coupon_1))
+      
+      expect(page).to have_button("Activate")
+      click_button("Activate")
+      expect(current_path).to eq(merchant_coupon_path(merchant1, coupon_1))
+      expect(page).to have_content("Coupon status: active")
+
+    end
+
+    it "will not activate a coupon if there are already 5 active coupons" do
+      coupon_3 = Coupon.create!(name: "SuperSaver$5", code: "asdfasdf5$", pennies_off: 500, merchant: merchant1, status: 1)
+      coupon_4 = Coupon.create!(name: "SuperSaver%5", code: "afsfa5%", percent_off: 5, merchant: merchant1, status: 1)
+      coupon_5 = Coupon.create!(name: "SuperSaver$5", code: "asd5$", pennies_off: 500, merchant: merchant1, status: 1)
+      coupon_6 = Coupon.create!(name: "SuperSaver%5", code: "asdf5%", percent_off: 5, merchant: merchant1, status: 0)
+      visit merchant_coupon_path(merchant1, coupon_6)
+      click_button('Activate')
+      expect(page).to have_content("There are already 5 active coupons for this merchant")
     end
   end
 end

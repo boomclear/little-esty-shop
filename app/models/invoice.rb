@@ -14,4 +14,17 @@ class Invoice < ApplicationRecord
   def total_revenue
     invoice_items.sum("unit_price * quantity")
   end
+
+  def grand_total
+    ii = total_revenue
+    if self.coupon.pennies_off
+      pennies_off = self.coupon.pennies_off
+      ii - pennies_off
+    elsif self.coupon.percent_off
+      percent_off = self.coupon.percent_off
+      division = percent_off / 100.0
+      multi = ii * division
+      ii - multi
+    end
+  end
 end

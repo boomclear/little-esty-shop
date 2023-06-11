@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :merchants, only: [:show] do
-    resources :coupons, only: [:index, :show, :new]
+    resources :coupons, only: [:index, :show, :new, :update]
     resources :dashboard, only: [:index]
     resources :items, except: [:destroy]
     resources :item_status, only: [:update]

@@ -8,7 +8,7 @@ RSpec.describe "Coupon Index Page" do
     customer_1 = Customer.create!(first_name: "Austin", last_name: "Smith")
    
     coupon_1 = Coupon.create!(name: "SuperSaver$5", code: "Save5$", pennies_off: 500, merchant: merchant1, status: 1)
-    coupon_2 = Coupon.create!(name: "SuperSaver%5", code: "Save5%", percent_off: 5, merchant: merchant1, status: 1)
+    coupon_2 = Coupon.create!(name: "SuperSaver%5", code: "Save5%", percent_off: 5, merchant: merchant1, status: 0)
 
     invoice_1 = Invoice.create!(customer_id: customer_1.id, status: 2, coupon: coupon_1)
     invoice_2 = Invoice.create!(customer_id: customer_1.id, status: 2, coupon: coupon_2)
@@ -32,6 +32,16 @@ RSpec.describe "Coupon Index Page" do
     it "has a create new coupon link" do 
       visit merchant_coupons_path(merchant1)
       expect(page).to have_link("Create new coupon")
+    end
+
+    it "separates inactive from active coupons" do
+      visit merchant_coupons_path(merchant1)
+      within("#active_coupons") do
+        expect(page).to have_content(coupon_1.name)
+      end
+      within("#inactive_coupons") do
+        expect(page).to have_content(coupon_2.name)
+      end
     end
   end
 end

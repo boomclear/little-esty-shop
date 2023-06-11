@@ -29,7 +29,9 @@ RSpec.describe "invoices show" do
     @customer_5 = Customer.create!(first_name: "Sylvester", last_name: "Nader")
     @customer_6 = Customer.create!(first_name: "Herber", last_name: "Kuhn")
 
-    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
+    @coupon = Coupon.create(name: "SuperSaver", code: "1233$", percent_off: 50, merchant: @merchant1, status: 1 )
+
+    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09", coupon: @coupon)
     @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-28 14:54:09")
     @invoice_3 = Invoice.create!(customer_id: @customer_2.id, status: 2)
     @invoice_4 = Invoice.create!(customer_id: @customer_3.id, status: 2)
@@ -107,4 +109,18 @@ RSpec.describe "invoices show" do
     end
   end
 
+  it "shows the grand total revenue for this invoice" do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+
+    expect(page).to have_content(@invoice_1.grand_total)
+  end
+
+  it "shows coupon used and links to that coupons show page" do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+
+    expect(page).to have_content(@coupon.name)
+    expect(page).to have_content(@coupon.code)
+    click_link(@coupon.name)
+    expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon))
+  end
 end

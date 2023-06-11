@@ -26,4 +26,17 @@ class CouponsController < ApplicationController
       flash[:alert] = "There are already 5 active coupons for this merchant"
     end
   end
+
+  def update
+    merchant = Merchant.find(params[:merchant_id])
+    coupon = Coupon.find(params[:id])
+    if !merchant.five_active_coupons?
+      coupon.update(status: params[:coupon_status].to_i)
+      redirect_back fallback_location: merchant_coupons_path(merchant)
+    else
+      redirect_back fallback_location: merchant_coupons_path(merchant)
+      flash[:alert] = "There are already 5 active coupons for this merchant"
+    end
+  end
+
 end
