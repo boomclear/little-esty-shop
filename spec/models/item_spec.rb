@@ -13,6 +13,13 @@ RSpec.describe Item, type: :model do
   end
   describe "instance methods" do
     it "best day" do
+      Transaction.destroy_all
+      InvoiceItem.destroy_all
+      Item.destroy_all
+      Invoice.destroy_all
+      Coupon.destroy_all
+      Merchant.destroy_all
+      Customer.destroy_all
       @merchant1 = Merchant.create!(name: 'Hair Care')
       @merchant2 = Merchant.create!(name: 'Jewelry')
 

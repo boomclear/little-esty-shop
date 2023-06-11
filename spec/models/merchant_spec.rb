@@ -10,11 +10,19 @@ describe Merchant do
     it {should have_many(:invoices).through(:invoice_items)}
     it { should have_many(:customers).through(:invoices) }
     it { should have_many(:transactions).through(:invoices) }
+    it { should have_many(:coupons) }
 
   end
 
   describe "class methods" do
     before :each do
+      Transaction.destroy_all
+      InvoiceItem.destroy_all
+      Item.destroy_all
+      Invoice.destroy_all
+      Coupon.destroy_all
+      Merchant.destroy_all
+      Customer.destroy_all
       @merchant1 = Merchant.create!(name: 'Hair Care')
       @merchant2 = Merchant.create!(name: 'Jewelry')
       @merchant3 = Merchant.create!(name: 'Office Space')
@@ -91,6 +99,13 @@ describe Merchant do
 
   describe "instance methods" do
     before :each do
+      Transaction.destroy_all
+      InvoiceItem.destroy_all
+      Item.destroy_all
+      Invoice.destroy_all
+      Coupon.destroy_all
+      Merchant.destroy_all
+      Customer.destroy_all
       @merchant1 = Merchant.create!(name: 'Hair Care')
       @merchant2 = Merchant.create!(name: 'Jewelry')
 
@@ -167,6 +182,16 @@ describe Merchant do
     it "disabled_items" do 
       expect(@merchant1.disabled_items).to eq([@item_2, @item_3, @item_4, @item_7, @item_8])
       expect(@merchant2.disabled_items).to eq([@item_5, @item_6])
+    end
+
+    it "five_active_coupons?" do 
+      expect(@merchant1.five_active_coupons?).to eq(false)
+      coupon_3 = Coupon.create!(name: "SuperSaver%15", code: "less%", percent_off: 5, merchant: @merchant1, status: 1)
+      coupon_4 = Coupon.create!(name: "SuperSaver$15", code: "less$", pennies_off: 1500, merchant: @merchant1, status: 1)
+      coupon_5 = Coupon.create!(name: "SuperSaver$25", code: "lesser$", pennies_off: 2500, merchant: @merchant1, status: 1)
+      coupon_1 = Coupon.create!(name: "SuperSaver$5", code: "Save05$", pennies_off: 500, merchant: @merchant1, status: 1)
+      coupon_2 = Coupon.create!(name: "SuperSaver%5", code: "Save05%", percent_off: 5, merchant: @merchant1, status: 1)
+      expect(@merchant1.five_active_coupons?).to eq(true)
     end
   end
 end

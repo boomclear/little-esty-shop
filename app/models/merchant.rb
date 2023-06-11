@@ -1,10 +1,11 @@
 class Merchant < ApplicationRecord
-  validates_presence_of :name
+  validates_presence_of :name 
   has_many :items
   has_many :invoice_items, through: :items
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
+  has_many :coupons
 
   enum status: [:enabled, :disabled]
 
@@ -60,5 +61,13 @@ class Merchant < ApplicationRecord
 
   def disabled_items
     items.where(status: 0)
+  end
+
+  def five_active_coupons?
+    if (self.coupons.where("coupons.status = 1")).count >= 5
+      true
+    else
+      false
+    end
   end
 end

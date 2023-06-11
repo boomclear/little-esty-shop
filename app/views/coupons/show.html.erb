@@ -1,0 +1,11 @@
+<div>
+  <p> Coupon Name: <%= @coupon.name %> </p> 
+  <p> Coupon status: <%= @coupon.status %> </p>
+  <% if @coupon.pennies_off %>
+    <p> Pennies Off: <%= @coupon.pennies_off %> </p>
+    <% end %>
+  <% if @coupon.percent_off %>
+    <p>Percentage Off: <%= @coupon.percent_off %></p>
+  <% end %>
+  <p> Times Used: <%= @coupon.times_used %></p>
+</div>

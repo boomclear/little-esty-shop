@@ -1,0 +1,13 @@
+<div>
+<%= link_to "Create new coupon", new_merchant_coupon_path(@merchant) %>
+<% @merchant.coupons.each do |c| %>
+  <p> Coupon Name: <%= link_to c.name, merchant_coupon_path(@merchant, c) %> </p> 
+  <p> Coupon status: <%= c.status %> </p>
+  <% if c.pennies_off %>
+    <p> Pennies Off: <%= c.pennies_off %> </p>
+    <% end %>
+  <% if c.percent_off %>
+    <p>Percentage Off: <%= c.percent_off %></p>
+  <% end %>
+<% end %>
+</div>

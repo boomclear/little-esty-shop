@@ -2,6 +2,13 @@ require "rails_helper"
 
 RSpec.describe "merchant dashboard" do
   before :each do
+    Transaction.destroy_all
+    InvoiceItem.destroy_all
+    Item.destroy_all
+    Invoice.destroy_all
+    Coupon.destroy_all
+    Merchant.destroy_all
+    Customer.destroy_all
     @merchant1 = Merchant.create!(name: "Hair Care")
 
     @customer_1 = Customer.create!(first_name: "Joey", last_name: "Smith")
@@ -11,8 +18,8 @@ RSpec.describe "merchant dashboard" do
     @customer_5 = Customer.create!(first_name: "Sylvester", last_name: "Nader")
     @customer_6 = Customer.create!(first_name: "Herber", last_name: "Kuhn")
 
-    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2)
-    @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2)
+    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, coupon: @coupon_1)
+    @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, coupon: @coupon_2)
     @invoice_3 = Invoice.create!(customer_id: @customer_2.id, status: 2)
     @invoice_4 = Invoice.create!(customer_id: @customer_3.id, status: 2)
     @invoice_5 = Invoice.create!(customer_id: @customer_4.id, status: 2)
@@ -118,5 +125,9 @@ RSpec.describe "merchant dashboard" do
 
   it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
     expect(page).to have_content(@invoice_1.created_at.strftime("%A, %B %-d, %Y"))
+  end
+
+  it "shows link to coupons index page" do
+    expect(page).to have_link("Coupons")
   end
 end

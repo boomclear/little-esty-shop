@@ -1,0 +1,15 @@
+<%= form_with model: @coupon, id: "coupon_form" do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.label :code %>
+  <%= f.text_field :code %>
+
+  <%= f.label :discount_type %>
+  <%= f.select :discount_type, [["percent off", :percent_off], ["pennies off", :pennies_off]] %>
+
+  <%= f.label :amount %>
+  <%= f.text_field :amount %>
+
+  <%= f.submit :submit %>
+<% end %>

@@ -13,6 +13,13 @@ RSpec.describe Customer, type: :model do
 
   describe 'instance methods' do
     before(:each) do
+      Transaction.destroy_all
+      InvoiceItem.destroy_all
+      Item.destroy_all
+      Invoice.destroy_all
+      Coupon.destroy_all
+      Merchant.destroy_all
+      Customer.destroy_all
       @customer = Customer.create!(first_name: 'Joey', last_name: 'Smith')
       @invoice_1 = Invoice.create!(customer_id: @customer.id, status: 2)
       @invoice_2 = Invoice.create!(customer_id: @customer.id, status: 2)
@@ -31,6 +38,13 @@ RSpec.describe Customer, type: :model do
 
   describe 'class methods' do
     before(:each) do
+      Transaction.destroy_all
+      InvoiceItem.destroy_all
+      Item.destroy_all
+      Invoice.destroy_all
+      Coupon.destroy_all
+      Merchant.destroy_all
+      Customer.destroy_all
       @customer = Customer.create!(first_name: 'Joey', last_name: 'Smith')
       @customer_2 = Customer.create!(first_name: 'Cecilia', last_name: 'Jones')
       @customer_3 = Customer.create!(first_name: 'Mariah', last_name: 'Carrey')

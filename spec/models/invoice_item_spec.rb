@@ -15,6 +15,13 @@ RSpec.describe InvoiceItem, type: :model do
 
   describe "class methods" do
     before(:each) do
+      Transaction.destroy_all
+      InvoiceItem.destroy_all
+      Item.destroy_all
+      Invoice.destroy_all
+      Coupon.destroy_all
+      Merchant.destroy_all
+      Customer.destroy_all
       @m1 = Merchant.create!(name: 'Merchant 1')
       @c1 = Customer.create!(first_name: 'Bilbo', last_name: 'Baggins')
       @c2 = Customer.create!(first_name: 'Frodo', last_name: 'Baggins')
