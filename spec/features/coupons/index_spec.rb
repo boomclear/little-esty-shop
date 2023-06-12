@@ -21,6 +21,7 @@ RSpec.describe "Coupon Index Page" do
 
     it "shows coupons and their attributes" do
       visit merchant_coupons_path(merchant1)
+      save_and_open_page
       expect(page).to have_content(coupon_1.pennies_off)
       expect(page).to have_content(coupon_2.percent_off)
       expect(page).to have_link(coupon_1.name)
