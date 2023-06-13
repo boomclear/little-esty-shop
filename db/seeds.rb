@@ -12,4 +12,4 @@ Invoice.destroy_all
 Coupon.destroy_all
 Merchant.destroy_all
 Customer.destroy_all
-Rake::Task["csv_load:all"].invoke
+# Rake::Task["csv_load:all"].invoke
