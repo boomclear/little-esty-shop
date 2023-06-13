@@ -33,7 +33,7 @@ RSpec.describe Coupon, type: :model do
       ii_2 = InvoiceItem.create!(invoice_id: invoice_2.id, item_id: item_2.id, quantity: 1, unit_price: 8, status: 0)
       transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: invoice_1.id)
       transaction2 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: invoice_1.id)
-      transaction2 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: invoice_2.id)
+      transaction3 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: invoice_2.id)
 
       expect(coupon_1.times_used).to eq(2)
     end
